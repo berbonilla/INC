@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Site</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+    <div class="left-container"> 
+      <h2>Gemini AI</h2>
+      <textarea class="textbox" placeholder="Input Anything (Legal that is)"></textarea>
+      <button class="button" onclick="submitPrompt()">Submit</button>
+      <div class="output" id="output"></div>
+
+        <div id="output"></div>
+    </div>
+
+    <div class="right-container">
+        <h2>Maps</h2>
+        <div id="map">
+            <iframe src=map.html frameborder="0" class="responsive-iframe"></iframe>
+        </div>
+       
+    </div>
+</div>
+
+<script src="bundle.js"></script>
+
+</body>
+</html>
