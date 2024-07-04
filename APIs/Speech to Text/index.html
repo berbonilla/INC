@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cheetah Real-time Speech-to-Text - Picovoice</title>
+    <script src="node_modules/@picovoice/cheetah-web/dist/iife/index.js"></script>
+    <script src="node_modules/@picovoice/web-voice-processor/dist/iife/index.js"></script>
+  </head>
+  <body>
+    <div>Real-time Transcription: <span id="transcript"></span></div>
+    <button id="start-cheetah">Start Cheetah</button>
+    <button id="stop-cheetah">Stop Cheetah</button>
+    <script type="application/javascript">
+      const transcriptSpan = document.getElementById('transcript')
+      const startCheetahButton = document.getElementById('start-cheetah')
+      const stopCheetahButton = document.getElementById('stop-cheetah')
+      startCheetahButton.addEventListener('click', startCheetah)
+      stopCheetahButton.addEventListener('click', stopCheetah)
+      
+      let cheetah = null
+
+
+      let fullTranscript = "";
+      function transcriptCallback(cheetahTranscript) {
+        fullTranscript += cheetahTranscript.transcript;
+        if (cheetahTranscript.isEndpoint) {
+          fullTranscript += "\n";
+        }
+        transcriptSpan.innerText = fullTranscript;
+      }
+      
+      async function initCheetah() {
+        cheetah = await CheetahWeb.CheetahWorker.create(
+          "${BIx2msyL8DUFkXV8Xlh40o/mPdRH1piXg3PH2C+KowKjfMidsUG8Xw==}",
+          transcriptCallback,
+          { publicPath: "${MODEL_RELATIVE_PATH}" }
+        );
+      }
+
+
+      async function startCheetah() {
+        startCheetahButton.innerText = "Loading…"
+        if (!cheetah) {
+          await initCheetah()
+        }
+
+
+        await WebVoiceProcessor.WebVoiceProcessor.subscribe(cheetah)
+        startCheetahButton.innerText = "Listening…"
+      }
+
+
+      async function stopCheetah() {
+        await WebVoiceProcessor.WebVoiceProcessor.unsubscribe(cheetah)
+        startCheetahButton.innerText = "Start Cheetah"
+      }
+    </script>
+  </body>
+</html>
